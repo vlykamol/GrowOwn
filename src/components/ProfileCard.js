@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Alert, Container } from "react-bootstrap";
+import { Card, Container } from "react-bootstrap";
 import profileImg from "../images/profileImg.jpg"
 
 export default function ProfileCard(props) {

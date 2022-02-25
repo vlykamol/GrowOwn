@@ -11,19 +11,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import profileImage from "../images/profileImg.jpg";
 
-export default function NavigationBar() {
-
+export default function NavigationBar(profile) {
+  
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
-  const [profile, setProfile] = useState({});
   const navigate = useNavigate();
-
   const styles = {
     tooltip: {
       display: "flex",
       flexDirection: "column",
     },
   };
+  console.log(currentUser ? currentUser : 'nouser');
   async function handleLogout() {
     setError("");
     try {
@@ -36,7 +35,7 @@ export default function NavigationBar() {
   return (
     <Container>
       <Navbar fixed="top" bg="dark" variant="dark">
-      <Navbar.Brand href="/">
+      <Navbar.Brand style={{marginLeft:"1rem"}} href="/">
         <img
           alt=""
           src={profileImage}
@@ -47,7 +46,33 @@ export default function NavigationBar() {
         Grow Own
       </Navbar.Brand>
       <Navbar.Toggle />
-      <Navbar.Collapse className="justify-content-end">
+      <Navbar.Collapse className="justify-content-end" style={{marginRight:"1rem"}}>
+        {!currentUser && <OverlayTrigger
+          trigger="click"
+          placement="bottom"
+          overlay={
+            <Tooltip>
+              <div style={styles.tooltip}>
+                <strong>user</strong>
+                <Link
+                    to="/login"
+                    className="btn btn-primary w-100 mt-3"
+                  >
+                    login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="btn btn-primary w-100 mt-3"
+                  >
+                    signup
+                  </Link>
+              </div>
+            </Tooltip>
+          }
+        >
+          <Button variant="secondary">user</Button>
+        </OverlayTrigger>}
+        {currentUser &&
         <OverlayTrigger
           trigger="click"
           placement="bottom"
@@ -61,10 +86,18 @@ export default function NavigationBar() {
                 {error && <Alert variant="danger">{error}</Alert>}
                 {profile._id && (
                   <Link
-                    to="/create-profile"
+                    to="/update-profile"
                     className="btn btn-primary w-100 mt-3"
                   >
                     Update Profile
+                  </Link>
+                )}
+                {!profile._id && (
+                  <Link
+                    to="/dashbord"
+                    className="btn btn-primary w-100 mt-3"
+                  >
+                  Profile
                   </Link>
                 )}
               </div>
@@ -73,6 +106,7 @@ export default function NavigationBar() {
         >
           <Button variant="secondary">{currentUser.email}</Button>
         </OverlayTrigger>
+        }
       </Navbar.Collapse>
       </Navbar>
     </Container>

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert, Container } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import NavigationBar from "./NavigationBar";
 
 export default function Login() {
   const emailRef = useRef();
@@ -25,6 +26,8 @@ export default function Login() {
   }
 
   return (
+    <>
+    <NavigationBar/>
     <Container
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh" }}>
@@ -66,5 +69,6 @@ export default function Login() {
         </div>
       </div>
     </Container>
+    </>
   );
 }
