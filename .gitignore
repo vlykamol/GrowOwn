@@ -10,6 +10,7 @@
 
 # production
 /build
+/GrowOwn
 
 # misc
 .DS_Store

@@ -6,7 +6,7 @@ export default function ProfileCard(props) {
   return (
     <Container
       className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
+      // style={{ minHeight: "100vh" }}
     >
       <div>
         <Card className="w-100 mt-4">

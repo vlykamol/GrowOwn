@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Alert } from 'react-bootstrap';
+import { Alert, Container } from 'react-bootstrap';
 import NavigationBar from './NavigationBar'
 import ProfileCard from './ProfileCard'
 
@@ -11,7 +11,6 @@ export default function Timeline() {
 
   async function fetchAllProfiles(){
     setError("");
-
     try {
       await axios
         .get(`http://localhost:5000/profile/getAllProfiles`)
@@ -27,17 +26,26 @@ export default function Timeline() {
     fetchAllProfiles()
   }, [])
 
-  
+  const styles = {
+    Container: {
+      marginTop: "8rem",
+      marginBottom: "8rem",
+      display: "flex",
+      flexDirection: "column",
+    },
+  };
 
   return (
     <>
     <NavigationBar {...profile}/>
     {error && <Alert variant='danger'>{error}</Alert>}
+    <Container className='d-flex justify-content-center align-items-cnter' style={styles.Container}>
       {profile.map(p =>{
         return(
           <ProfileCard key={p._id} profile={p} />
         )
       })}
+    </Container>
     </>
   )
 }

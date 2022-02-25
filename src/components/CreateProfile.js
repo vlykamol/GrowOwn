@@ -39,7 +39,7 @@ export default function CreateProfile() {
         .post("http://localhost:5000/profile/addProfile", profile)
         .then((res) => {
           console.log(res.data)
-          navigate("/")
+          navigate("/dashbord")
         })
         .catch((error) => {
           setEroor("Failed to create an profile")

@@ -22,7 +22,6 @@ export default function NavigationBar(profile) {
       flexDirection: "column",
     },
   };
-  console.log(currentUser ? currentUser : 'nouser');
   async function handleLogout() {
     setError("");
     try {
@@ -33,8 +32,7 @@ export default function NavigationBar(profile) {
     }
   }
   return (
-    <Container>
-      <Navbar fixed="top" bg="dark" variant="dark">
+    <Navbar fixed="top" bg="dark" variant="dark">
       <Navbar.Brand style={{marginLeft:"1rem"}} href="/">
         <img
           alt=""
@@ -109,6 +107,5 @@ export default function NavigationBar(profile) {
         }
       </Navbar.Collapse>
       </Navbar>
-    </Container>
   );
 }

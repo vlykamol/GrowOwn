@@ -3,12 +3,14 @@ import React, { useState, useEffect } from "react";
 import {
   Card,
   Alert,
-  Container
+  Container,
+  Row
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ProfileCard from "./ProfileCard";
 import NavigationBar from "./NavigationBar";
+import Inventory from "./Inventory";
 
 export default function Dashbord() {
   const [error, setError] = useState("");
@@ -33,8 +35,17 @@ export default function Dashbord() {
     fetchData()
   }, [])
 
+  const styles = {
+    Container: {
+      marginTop: "8rem",
+      marginBottom: "8rem",
+      display: "flex",
+      flexDirection: "column",
+    },
+  };
+
   return (
-    <>
+    <div style={styles.Container}>
       <NavigationBar {...profile}/>
       {!profile._id && <Container
         className="d-flex align-items-center justify-content-center"
@@ -58,8 +69,9 @@ export default function Dashbord() {
       </Container>}
       {profile._id && <ProfileCard profile={profile} />}
       <Container className="d-flex align-items-center justify-content-center">
-      <Link to='/add-item'>add item</Link>
+      
+      <Inventory id = {profile._id}/>
       </Container>
-    </>
+    </div>
   );
 }
