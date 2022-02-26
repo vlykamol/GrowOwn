@@ -1,14 +1,14 @@
 import { AuthProvider } from "../context/AuthContext";
 import Dashbord from "./Dashbord";
-import Signup from "./Signup";
-import Login from "./Login";
+import Signup from "./user/Signup";
+import Login from "./user/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
-import ForgotPassword from "./ForgotPassword";
-import CreateProfile from "./CreateProfile";
-import UpdateProfile from "./UpdateProfile"
+import ForgotPassword from "./user/ForgotPassword";
+import CreateProfile from "./user/CreateProfile";
+import UpdateProfile from "./user/UpdateProfile"
 import Timeline from "./Timeline";
-import AddItem from "./AddItem";
+import AddItem from "./user/AddItem";
 
 function App() {
   return (

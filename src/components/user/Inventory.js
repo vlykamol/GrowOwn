@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Container } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext';
-import ItemCard from './ItemCard';
+import { useAuth } from '../../context/AuthContext';
+import ItemCard from '../ItemCard';
 
 export default function Inventory() {
   const { currentUser} = useAuth();
@@ -27,19 +27,29 @@ export default function Inventory() {
     fetchAllItems()
   }, [])
 
+  const styles = {
+    wrapper:{
+      padding: "4rem",
+      display: "grid",
+      gridTemplateColumns: "repeat(2, 1fr)",
+      gap: "2rem",
+      gridAutoRows: "auto"
+    }
+  }
 
   return (
-    <div>
-    <div className='d-flex align-items-center justify-content-center w-100'>
-    <Link to='/add-item'>add item</Link>
-    </div>
-    <div className=''>
+    <div style={{width:"inherit"}}>
+      <div className='d-flex align-items-center justify-content-between mt-4' >
+        <div><Link className="btn btn-primary w-100 mt-3" to='/add-item'>add item</Link></div>
+        <div><Button>sort</Button></div>
+      </div>
+    <div style={styles.wrapper}>
     {items.map(i =>{
         return(
           <ItemCard key={i._id} {...i} />
         )
       })}
-    </div>
+      </div>
     </div>
   )
 }

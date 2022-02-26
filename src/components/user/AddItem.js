@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert, InputGroup, Container } from "react-bootstrap";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../NavigationBar";
 
 export default function AddItem() {
   const productName = useRef();

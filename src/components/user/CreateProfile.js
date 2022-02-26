@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Form, Button, Card, Alert, InputGroup, Container } from "react-bootstrap";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../NavigationBar";
 
 export default function CreateProfile() {
   const fNameRef = useRef();
@@ -15,38 +15,61 @@ export default function CreateProfile() {
   const contactRef = useRef();
   const addressRef = useRef();
   const { currentUser } = useAuth();
-  const [error, setEroor] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [profile, setProfile] = useState({});
   const navigate = useNavigate();
+
+  async function fetchData() {
+    setError("");
+
+    try {
+      setLoading(true);
+      await axios
+        .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`)
+        .then((res) => {
+          // console.log(res.data);
+          setProfile(res.data);
+        });
+    } catch {
+      setError("Failed to get data");
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchData()
+    // console.log(profile);
+  }, [])
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const profile = {
+    const newProfile = {
       userId: currentUser.uid,
-      firstName: fNameRef.current.value,
-      lastName: lNameRef.current.value,
+      firstName: fNameRef.current.value ? fNameRef.current.value : profile.firstName,
+      lastName: lNameRef.current.value ? lNameRef.current.value : profile.lastName,
       shopName: sNameRef.current.value,
       productType: pTypesRef.current.value,
       timings: [fTimeRef.current.value, tTimeRef.current.value],
-      contactInfo: contactRef.current.value,
-      address: addressRef.current.value,
+      contactInfo: contactRef.current.value ? contactRef.current.value : profile.contactInfo,
+      address: addressRef.current.value ? addressRef.current.value : profile.address,
     };
 
     try {
-      setEroor("");
+      setError("");
       setLoading(true);
       axios
-        .post("http://localhost:5000/profile/addProfile", profile)
+        .post("http://localhost:5000/profile/addProfile", newProfile)
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           navigate("/dashbord")
         })
         .catch((error) => {
-          setEroor("Failed to create an profile")
+          setError("Failed to create an profile")
           console.log(error)}) 
     } catch {
       console.log('hey');
-      setEroor("Failed to create an profile");
+      setError("Failed to create an profile");
     }
     setLoading(false);
   }
@@ -68,7 +91,7 @@ export default function CreateProfile() {
                 <Form.Control
                   type="text"
                   ref={fNameRef}
-                  required
+                  placeholder={profile.firstName}
                 ></Form.Control>
               </Form.Group>
 
@@ -77,7 +100,7 @@ export default function CreateProfile() {
                 <Form.Control
                   type="text"
                   ref={lNameRef}
-                  required
+                  placeholder={profile.lastName}
                 ></Form.Control>
               </Form.Group>
 
@@ -122,7 +145,7 @@ export default function CreateProfile() {
                 <Form.Control
                   type="text"
                   ref={contactRef}
-                  required
+                  placeholder={profile.contactInfo}
                 ></Form.Control>
               </Form.Group>
 
@@ -131,7 +154,7 @@ export default function CreateProfile() {
                 <Form.Control
                   as="textarea"
                   ref={addressRef}
-                  required
+                  placeholder={profile.address}
                 ></Form.Control>
               </Form.Group>
 

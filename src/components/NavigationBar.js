@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-import {
-  Alert,
-  Button,
-  Container,
-  Navbar,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap";
+import { Alert, Button, Navbar, OverlayTrigger, Tooltip } from "react-bootstrap";
+import Feedback from "react-bootstrap/esm/Feedback";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import profileImage from "../images/profileImg.jpg";
 
 export default function NavigationBar(profile) {
-  
+  console.log(profile);
+
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
@@ -51,24 +46,15 @@ export default function NavigationBar(profile) {
           overlay={
             <Tooltip>
               <div style={styles.tooltip}>
-                <strong>user</strong>
-                <Link
-                    to="/login"
-                    className="btn btn-primary w-100 mt-3"
-                  >
-                    login
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="btn btn-primary w-100 mt-3"
-                  >
-                    signup
-                  </Link>
+                feedback
+                {/* <Link to='/feedback' className="btn btn-primary w-100 mt-3">
+                  Feedback
+                </Link> */}
               </div>
             </Tooltip>
           }
         >
-          <Button variant="secondary">user</Button>
+          <Button variant="secondary">{`Are you ${profile.user === 'seller' ? 'Affiliate' : 'seller'}?`}</Button>
         </OverlayTrigger>}
         {currentUser &&
         <OverlayTrigger

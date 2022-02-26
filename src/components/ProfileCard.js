@@ -3,13 +3,16 @@ import { Card, Container } from "react-bootstrap";
 import profileImg from "../images/profileImg.jpg"
 
 export default function ProfileCard(props) {
+  function handleChange(){
+    console.log(props.profile);
+  }
   return (
     <Container
       className="d-flex align-items-center justify-content-center"
       // style={{ minHeight: "100vh" }}
     >
       <div>
-        <Card className="w-100 mt-4">
+        <Card onClick={handleChange} className="w-100 mt-4">
           <Card.Header>
             <h2>{props.profile.shopName}</h2>
           </Card.Header>

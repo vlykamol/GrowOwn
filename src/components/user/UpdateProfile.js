@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Form, Button, Card, Alert, InputGroup, Container } from "react-bootstrap";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../NavigationBar";
 
 export default function CreateProfile() {
   const fNameRef = useRef();
@@ -28,9 +28,7 @@ export default function CreateProfile() {
       await axios
         .get(`http://localhost:5000/profile/getProfile/${currentUser.uid}`)
         .then((res) => {
-          console.log(res.data);
           setProfile(res.data);
-          console.log(profile);
         });
     } catch {
       setError("Failed to get data");
@@ -127,13 +125,13 @@ export default function CreateProfile() {
                   <Form.Control
                     type="text"
                     ref={fTimeRef}
-                    placeholder={profile.timings[0]}
+                    placeholder={profile.timings ? profile.timings[0] : "00"}
                   ></Form.Control>
                   <InputGroup.Text>To</InputGroup.Text>
                   <Form.Control
                     type="text"
                     ref={tTimeRef}
-                    placeholder={profile.timings[1]}
+                    placeholder={profile.timings ? profile.timings[1] : "00"}
                   ></Form.Control>
                 </InputGroup>
               </Form.Group>

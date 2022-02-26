@@ -1,14 +1,19 @@
 import React, { useRef, useState } from "react";
-import { Form, Button, Card, Alert, Container } from "react-bootstrap";
+import { Form, Button, Card, Alert, Container, ButtonGroup, ToggleButton } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import NavigationBar from "./NavigationBar";
+import { useAuth } from "../../context/AuthContext";
+import NavigationBar from "../NavigationBar";
 
 export default function Signup() {
+  const fNameRef = useRef();
+  const lNameRef = useRef();
   const emailRef = useRef();
+  const roleRef = useRef();
   const passwordRef = useRef();
+  const contactRef = useRef();
+  const addressRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup } = useAuth();
+  const { signup, currentUser, addProfile } = useAuth();
   const [error, setEroor] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -22,9 +27,20 @@ export default function Signup() {
     try {
       setEroor("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await signup(emailRef.current.value, passwordRef.current.value).then((res)=>{
+        addProfile({
+          userId: res.user._delegate.uid,
+          firstName: fNameRef.current.value,
+          lastName: lNameRef.current.value,
+          email: emailRef.current.value,
+          role: roleRef.current.value,
+          contactInfo: contactRef.current.value,
+          address: addressRef.current.value,
+        })
+      })
       navigate("/");
-    } catch {
+    } catch(e) {
+      console.log(e)
       setEroor("Failed to create new user");
     }
     setLoading(false);
@@ -42,11 +58,59 @@ export default function Signup() {
             <h2 className="text-center mb-4">Sign Up</h2>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
+
+              <Form.Group id="First Name">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  ref={fNameRef}
+                  required
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group id="Last Name">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  ref={lNameRef}
+                  required
+                ></Form.Control>
+              </Form.Group>
+
               <Form.Group id="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="email"
                   ref={emailRef}
+                  required
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group id="role">
+                <Form.Label>Join as a</Form.Label>
+                <Form.Select
+                  ref={roleRef}
+                  required
+                >
+                  <option>seller</option>
+                  <option>affiliate</option>
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group id="Contact">
+                <Form.Label>Contact details</Form.Label>
+                <Form.Control
+                  type="text"
+                  ref={contactRef}
+                  required
+                ></Form.Control>
+              </Form.Group>
+
+              <Form.Group id="Address">
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  ref={addressRef}
                   required
                 ></Form.Control>
               </Form.Group>
