@@ -51,6 +51,17 @@ export function AuthProvider({children}) {
     return unsubscribe
   }, [])
 
+  useEffect(()=>{
+    async function fetchData(){
+      await axios
+      .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`)
+      .then((res) => {
+        currentUser.role = res.data.role
+      })
+  }
+  fetchData()
+  },[currentUser])
+
   const value = {
     currentUser,
     login,

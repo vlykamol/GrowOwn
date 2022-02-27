@@ -5,16 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import profileImage from "../images/profileImg.jpg";
 
-export default function NavigationBar(profile) {
-  console.log(profile);
-
+export default function NavigationBar() {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const styles = {
     tooltip: {
       display: "flex",
-      flexDirection: "column",
+      flexDirection: "column", 
     },
   };
   async function handleLogout() {
@@ -54,7 +52,7 @@ export default function NavigationBar(profile) {
             </Tooltip>
           }
         >
-          <Button variant="secondary">{`Are you ${profile.user === 'seller' ? 'Affiliate' : 'seller'}?`}</Button>
+          <Button variant="secondary">User</Button>
         </OverlayTrigger>}
         {currentUser &&
         <OverlayTrigger
@@ -63,20 +61,23 @@ export default function NavigationBar(profile) {
           overlay={
             <Tooltip>
               <div style={styles.tooltip}>
-                <strong>{currentUser.email}</strong>
+                Logged in as 
+                <strong>{currentUser.role}</strong>
                 <Button variant="link" onClick={handleLogout}>
                   Log Out
                 </Button>
                 {error && <Alert variant="danger">{error}</Alert>}
-                {profile._id && (
+                <Link
+                    to="/dashbord"
+                    className="btn btn-primary w-100 mt-3"
+                  >profile
+                  </Link>
                   <Link
                     to="/update-profile"
                     className="btn btn-primary w-100 mt-3"
-                  >
-                    Update Profile
+                  >Update Profile
                   </Link>
-                )}
-                {!profile._id && (
+                {!currentUser.uid && (
                   <Link
                     to="/dashbord"
                     className="btn btn-primary w-100 mt-3"

@@ -2,13 +2,14 @@ import { AuthProvider } from "../context/AuthContext";
 import Dashbord from "./Dashbord";
 import Signup from "./user/Signup";
 import Login from "./user/Login";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import ForgotPassword from "./user/ForgotPassword";
 import CreateProfile from "./user/CreateProfile";
 import UpdateProfile from "./user/UpdateProfile"
 import Timeline from "./Timeline";
 import AddItem from "./user/AddItem";
+import SellerProfile from "./SellerProfile"
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/add-item" element={<PrivateRoute><AddItem/></PrivateRoute>}/>
+          <Route path="/seller-profile/:profileId" element={<PrivateRoute><SellerProfile/></PrivateRoute>}/>
         </Routes>
       </AuthProvider>
     </Router>

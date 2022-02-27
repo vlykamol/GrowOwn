@@ -1,10 +1,13 @@
 import React from "react";
 import { Card, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import profileImg from "../images/profileImg.jpg"
 
 export default function ProfileCard(props) {
+  const navigate = useNavigate();
+
   function handleChange(){
-    console.log(props.profile);
+    navigate(`/seller-profile/${props.profile._id} `)
   }
   return (
     <Container

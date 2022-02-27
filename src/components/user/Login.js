@@ -11,14 +11,13 @@ export default function Login() {
   const [error, setEroor] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       setEroor("");
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-      navigate("/");
+      navigate("/dashbord");
     } catch {
       setEroor("Failed to log in an account");
     }

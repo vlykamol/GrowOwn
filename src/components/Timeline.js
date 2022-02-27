@@ -8,8 +8,6 @@ import ProfileCard from './ProfileCard'
 export default function Timeline() {
   const [error, setError] = useState("");
   const [profile, setProfile] = useState([]);
-  const [user, setUser] = useState('');
-  const { currentUser } = useAuth();
   // const navigate = useNavigate();
 
   async function fetchAllProfiles(){
@@ -19,17 +17,6 @@ export default function Timeline() {
         .get(`http://localhost:5000/profile/getAllProfiles`)
         .then((res) => {
           setProfile(res.data);
-        });
-    } catch {
-      setError("Failed to get data");
-    }
-
-    try {
-      await axios
-        .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`)
-        .then((res) => {
-          // console.log(res.data);
-          setUser(res.data.role);
         });
     } catch {
       setError("Failed to get data");
@@ -51,7 +38,7 @@ export default function Timeline() {
 
   return (
     <>
-    <NavigationBar user={user}/>
+    <NavigationBar />
     {error && <Alert variant='danger'>{error}</Alert>}
     <Container className='d-flex justify-content-center align-items-cnter' style={styles.Container}>
       {profile.map(p =>{

@@ -5,16 +5,18 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext';
 import ItemCard from '../ItemCard';
 
-export default function Inventory() {
-  const { currentUser} = useAuth();
+export default function Inventory(user) {
+  const { currentUser } = useAuth()
   const [error, setError] = useState('')
   const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(false)
 
   async function fetchAllItems(){
+    setLoading(true)
     setError("");
     try {
       await axios
-        .get(`http://localhost:5000/item/getAllItems/${currentUser.uid}`)
+        .get(`http://localhost:5000/item/getAllItems/${user.id}`)
         .then((res) => {
           setItems(res.data);
         });
@@ -25,6 +27,7 @@ export default function Inventory() {
 
   useEffect(()=>{
     fetchAllItems()
+    setLoading(false)
   }, [])
 
   const styles = {
@@ -39,17 +42,18 @@ export default function Inventory() {
 
   return (
     <div style={{width:"inherit"}}>
+      {loading && <strong>loading</strong>}
       <div className='d-flex align-items-center justify-content-between mt-4' >
-        <div><Link className="btn btn-primary w-100 mt-3" to='/add-item'>add item</Link></div>
+        {currentUser.uid === user.id && <div><Link className="btn btn-primary w-100 mt-3" to='/add-item'>add item</Link></div>}
         <div><Button>sort</Button></div>
       </div>
-    <div style={styles.wrapper}>
+    {!loading && <div style={styles.wrapper}>
     {items.map(i =>{
         return(
           <ItemCard key={i._id} {...i} />
         )
       })}
-      </div>
+      </div>}
     </div>
   )
 }

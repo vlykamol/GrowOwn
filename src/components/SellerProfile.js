@@ -1,24 +1,23 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Card, Alert, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ProfileCard from "./ProfileCard";
 import NavigationBar from "./NavigationBar";
 import Inventory from "./user/Inventory";
 
-export default function Dashbord() {
+export default function SellerProfile() {
   const [error, setError] = useState("");
   const { currentUser } = useAuth();
   const [profile, setProfile] = useState({});
-  const [user, setUser] = useState({});
-  const userID = currentUser.uid;
+  const { profileId } = useParams();
 
   async function fetchData() {
     setError("");
     try {
       await axios
-        .get(`http://localhost:5000/profile/getProfile/${userID}`)
+        .get(`http://localhost:5000/profile/getProfile/${profileId}`)
         .then((res) => {
           // console.log(res.data);
           setProfile(res.data);
@@ -26,19 +25,6 @@ export default function Dashbord() {
     } catch {
       setError("Failed to get data");
     }
-    // try {
-    //   await axios
-    //     .get(`http://localhost:5000/profile/getUser/${userID}`)
-    //     .then((res) => {
-    //       // console.log(res.data);
-    //       setUser({
-    //         ID : userID,
-    //         role : res.data.role
-    //       });
-    //     });
-    // } catch {
-    //   setError("Failed to get data");
-    // }
   }
 
   useEffect(() => {
@@ -56,7 +42,7 @@ export default function Dashbord() {
 
   return (
     <div style={styles.Container}>
-      <NavigationBar {...user}/>
+      <NavigationBar/>
       {!profile._id && <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
@@ -79,7 +65,7 @@ export default function Dashbord() {
       </Container>}
       {profile._id && <ProfileCard profile={profile} />}
       <Container fluid="xl" className="d-flex align-items-center justify-content-center">
-        <Inventory id = {userID}/>
+        <Inventory id = {profileId}/>
       </Container>
     </div>
   );

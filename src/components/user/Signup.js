@@ -17,6 +17,10 @@ export default function Signup() {
   const [error, setEroor] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const user = {
+    role: '',
+    ID : 123
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -48,7 +52,7 @@ export default function Signup() {
 
   return (
     <>
-    <NavigationBar/>
+    <NavigationBar {...user}/>
     <Container
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh" }}>
