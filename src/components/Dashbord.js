@@ -18,7 +18,8 @@ export default function Dashbord() {
     setError("");
     try {
       await axios
-        .get(`http://localhost:5000/profile/getProfile/${userID}`)
+        // .get(`http://localhost:5000/profile/getProfile/${userID}`)
+        .get(`https://growserver.herokuapp.com/profile/getProfile/${userID}`)
         .then((res) => {
           // console.log(res.data);
           setProfile(res.data);
@@ -26,19 +27,6 @@ export default function Dashbord() {
     } catch {
       setError("Failed to get data");
     }
-    // try {
-    //   await axios
-    //     .get(`http://localhost:5000/profile/getUser/${userID}`)
-    //     .then((res) => {
-    //       // console.log(res.data);
-    //       setUser({
-    //         ID : userID,
-    //         role : res.data.role
-    //       });
-    //     });
-    // } catch {
-    //   setError("Failed to get data");
-    // }
   }
 
   useEffect(() => {

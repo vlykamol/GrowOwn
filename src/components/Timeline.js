@@ -14,7 +14,8 @@ export default function Timeline() {
     setError("");
     try {
       await axios
-        .get(`http://localhost:5000/profile/getAllProfiles`)
+        // .get(`http://localhost:5000/profile/getAllProfiles`)
+        .get(`https://growserver.herokuapp.com/profile/getAllProfiles`)
         .then((res) => {
           setProfile(res.data);
         });

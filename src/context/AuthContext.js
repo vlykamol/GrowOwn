@@ -32,7 +32,8 @@ export function AuthProvider({children}) {
   async function addProfile(user){
     try {
       axios
-        .post("http://localhost:5000/profile/addUser", user)
+        // .post("http://localhost:5000/profile/addUser", user)
+        .post("https://growserver.herokuapp.com/profile/addUser", user)
         .then((res) => {
           console.log(res.data)
         })
@@ -54,7 +55,8 @@ export function AuthProvider({children}) {
   useEffect(()=>{
     async function fetchData(){
       await axios
-      .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`)
+      // .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`)
+      .get(`https://growserver.herokuapp.com/profile/getUser/${currentUser.uid}`)
       .then((res) => {
         currentUser.role = res.data.role
       })

@@ -28,6 +28,7 @@ export default function AddItem() {
       setEroor("");
       setLoading(true);
       axios
+        // .post("http://localhost:5000/item//addItem", item)
         .post("http://localhost:5000/item//addItem", item)
         .then((res) => {
           console.log(res.data)

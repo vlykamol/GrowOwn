@@ -17,7 +17,8 @@ export default function SellerProfile() {
     setError("");
     try {
       await axios
-        .get(`http://localhost:5000/profile/getProfile/${profileId}`)
+        // .get(`http://localhost:5000/profile/getProfile/${profileId}`)
+        .get(`https://growserver.herokuapp.com/profile/getProfile/${profileId}`)
         .then((res) => {
           // console.log(res.data);
           setProfile(res.data);

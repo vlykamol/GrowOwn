@@ -16,7 +16,8 @@ export default function Inventory(user) {
     setError("");
     try {
       await axios
-        .get(`http://localhost:5000/item/getAllItems/${user.id}`)
+        // .get(`http://localhost:5000/item/getAllItems/${user.id}`)
+        .get(`https://growserver.herokuapp.com/item/getAllItems/${user.id}`)
         .then((res) => {
           setItems(res.data);
         });
@@ -37,12 +38,15 @@ export default function Inventory(user) {
       gridTemplateColumns: "repeat(2, 1fr)",
       gap: "2rem",
       gridAutoRows: "auto"
+    },
+    loading:{
+      color: "blue"
     }
   }
 
   return (
     <div style={{width:"inherit"}}>
-      {loading && <strong>loading</strong>}
+      {loading && <h1 style={styles.loading}>loading</h1>}
       <div className='d-flex align-items-center justify-content-between mt-4' >
         {currentUser.uid === user.id && <div><Link className="btn btn-primary w-100 mt-3" to='/add-item'>add item</Link></div>}
         <div><Button>sort</Button></div>

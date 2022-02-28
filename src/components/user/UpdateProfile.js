@@ -26,7 +26,8 @@ export default function CreateProfile() {
     try {
       setLoading(true);
       await axios
-        .get(`http://localhost:5000/profile/getProfile/${currentUser.uid}`)
+        // .get(`http://localhost:5000/profile/getProfile/${currentUser.uid}`)
+        .get(`https://growserver.herokuapp.com/profile/getProfile/${currentUser.uid}`)
         .then((res) => {
           setProfile(res.data);
         });
@@ -56,7 +57,8 @@ export default function CreateProfile() {
       setLoading(true);
       console.log(currentUser.uid);
       axios
-        .post(`http://localhost:5000/profile/updateProfile/${currentUser.uid}`, newprofile)
+        // .post(`http://localhost:5000/profile/updateProfile/${currentUser.uid}`, newprofile)
+        .post(`https://growserver.herokuapp.com/profile/updateProfile/${currentUser.uid}`, newprofile)
         .then((res) => {
           console.log(res.data)
           navigate("/")
