@@ -11,6 +11,7 @@ export function useAuth() {
 export function AuthProvider({children}) {
 
   const [currentUser, setCurrentuser] = useState()
+  const [currentUserP, setCurrentuserP] = useState()
   const [loading, setLoading] = useState(true)
 
   function signup(email, password) {
@@ -53,19 +54,23 @@ export function AuthProvider({children}) {
   }, [])
 
   useEffect(()=>{
-    async function fetchData(){
+    async function fetchData() {
       await axios
-      // .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`)
-      .get(`https://growserver.herokuapp.com/profile/getUser/${currentUser.uid}`)
-      .then((res) => {
-        currentUser.role = res.data.role
-      })
-  }
-  fetchData()
+        .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`)
+        // .get(`https://growserver.herokuapp.com/profile/getUser/${currentUser.uid}`)
+        .then((res) => {
+          currentUser.role = res.data.role;
+          setCurrentuserP(res.data);
+        });
+    }
+    fetchData()
   },[currentUser])
+
+
 
   const value = {
     currentUser,
+    currentUserP,
     login,
     signup,
     logout,

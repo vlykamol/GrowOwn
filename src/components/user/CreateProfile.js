@@ -60,8 +60,8 @@ export default function CreateProfile() {
       setError("");
       setLoading(true);
       axios
-        // .post("http://localhost:5000/profile/addProfile", newProfile)
-        .post("https://growserver.herokuapp.com/profile/addProfile", newProfile)
+        .post("http://localhost:5000/profile/addProfile", newProfile)
+        // .post("https://growserver.herokuapp.com/profile/addProfile", newProfile)
         .then((res) => {
           // console.log(res.data)
           navigate("/dashbord")

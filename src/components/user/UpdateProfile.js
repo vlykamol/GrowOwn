@@ -57,8 +57,8 @@ export default function CreateProfile() {
       setLoading(true);
       console.log(currentUser.uid);
       axios
-        // .post(`http://localhost:5000/profile/updateProfile/${currentUser.uid}`, newprofile)
-        .post(`https://growserver.herokuapp.com/profile/updateProfile/${currentUser.uid}`, newprofile)
+        .post(`http://localhost:5000/profile/updateProfile/${currentUser.uid}`, newprofile)
+        // .post(`https://growserver.herokuapp.com/profile/updateProfile/${currentUser.uid}`, newprofile)
         .then((res) => {
           console.log(res.data)
           navigate("/")

@@ -6,10 +6,11 @@ import { useAuth } from "../context/AuthContext";
 import ProfileCard from "./ProfileCard";
 import NavigationBar from "./NavigationBar";
 import Inventory from "./user/Inventory";
+import Button from "@restart/ui/esm/Button";
 
 export default function SellerProfile() {
   const [error, setError] = useState("");
-  const { currentUser } = useAuth();
+  const { currentUser, currentUserP } = useAuth();
   const [profile, setProfile] = useState({});
   const { profileId } = useParams();
 
@@ -17,8 +18,8 @@ export default function SellerProfile() {
     setError("");
     try {
       await axios
-        // .get(`http://localhost:5000/profile/getProfile/${profileId}`)
-        .get(`https://growserver.herokuapp.com/profile/getProfile/${profileId}`)
+        .get(`http://localhost:5000/profile/getProfile/${profileId}`)
+        // .get(`https://growserver.herokuapp.com/profile/getProfile/${profileId}`)
         .then((res) => {
           // console.log(res.data);
           setProfile(res.data);
@@ -31,6 +32,22 @@ export default function SellerProfile() {
   useEffect(() => {
     fetchData()
   }, [])
+
+  async function handleRequest(){
+    console.log(currentUserP);
+    const req = {
+      sellerId: profileId,
+      reqName: currentUserP.firstName,
+      quantity: 10,
+      isAccepted: false,
+    }
+    console.log(currentUser.uid);
+    await axios.post(`http://localhost:5000/request/postRequest/${currentUser.uid}`, req).then((res) => {
+      console.log('request submitted');
+    }).catch((err) => {
+      console.log('failed to send request');
+    })
+  }
 
   const styles = {
     Container: {
@@ -64,7 +81,13 @@ export default function SellerProfile() {
           </div>
         </div>
       </Container>}
-      {profile._id && <ProfileCard profile={profile} />}
+      {/* {profile._id && <ProfileCard profile={profile} />} */}
+      {profile._id &&
+      <Container fluid="md" className="d-flex align-items-center justify-content-between">
+        <ProfileCard profile={profile} />
+        {currentUser.role === "affiliate" && <Button onClick={handleRequest} className="mt-4">Request for coupons</Button>}
+      </Container>
+      }
       <Container fluid="xl" className="d-flex align-items-center justify-content-center">
         <Inventory id = {profileId}/>
       </Container>

@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import ProfileCard from "./ProfileCard";
 import NavigationBar from "./NavigationBar";
 import Inventory from "./user/Inventory";
+import RequestCard from "./RequestCard";
 
 export default function Dashbord() {
   const [error, setError] = useState("");
@@ -18,10 +19,9 @@ export default function Dashbord() {
     setError("");
     try {
       await axios
-        // .get(`http://localhost:5000/profile/getProfile/${userID}`)
-        .get(`https://growserver.herokuapp.com/profile/getProfile/${userID}`)
+        .get(`http://localhost:5000/profile/getProfile/${userID}`)
+        // .get(`https://growserver.herokuapp.com/profile/getProfile/${userID}`)
         .then((res) => {
-          // console.log(res.data);
           setProfile(res.data);
         });
     } catch {
@@ -65,7 +65,13 @@ export default function Dashbord() {
           </div>
         </div>
       </Container>}
-      {profile._id && <ProfileCard profile={profile} />}
+      {/* {profile._id && <ProfileCard profile={profile} />} */}
+      {profile._id &&
+      <Container fluid="lg" className="d-flex align-items-center justify-content-between" style = {{paddingLeft:"4rem", paddingRight:"4rem"}}>
+        <ProfileCard profile={profile} />
+        <RequestCard id = {userID}/>
+      </Container>
+      }
       <Container fluid="xl" className="d-flex align-items-center justify-content-center">
         <Inventory id = {userID}/>
       </Container>

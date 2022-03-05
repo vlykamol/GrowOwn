@@ -5,7 +5,7 @@ import profileImg from "../images/profileImg.jpg"
 
 export default function ItemCard(item) {
   return (
-    <div>
+    <Container fluid="xs" className="d-flex align-items-center justify-content-center">
     <Card className="mt-4">
           <Card.Header>
             <Container className='d-flex align-items-center justify-content-between'>
@@ -26,6 +26,7 @@ export default function ItemCard(item) {
           <Card.Body>
             <Card.Text className="text-center m-2 align-items-center justify-content-end">
               <a>Catagory: {item.productType}</a> 
+              <br></br>
               <a>Price: {item.price}</a>
             </Card.Text>
           </Card.Body>
@@ -33,6 +34,6 @@ export default function ItemCard(item) {
             Discount:{`10% off`}
           </Card.Footer>
         </Card>
-        </div>
+        </Container>
   )
 }

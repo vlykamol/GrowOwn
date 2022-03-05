@@ -10,7 +10,7 @@ export default function ProfileCard(props) {
     navigate(`/seller-profile/${props.profile._id} `)
   }
   return (
-    <Container
+    <Container fluid="xs"
       className="d-flex align-items-center justify-content-center"
       // style={{ minHeight: "100vh" }}
     >

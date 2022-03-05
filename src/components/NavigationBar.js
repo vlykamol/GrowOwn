@@ -36,6 +36,7 @@ export default function NavigationBar() {
         />{" "}
         Grow Own
       </Navbar.Brand>
+      <h3 className="justify-content-centers" style={{color: "white"}}>{currentUser && currentUser.role}</h3>
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-end" style={{marginRight:"1rem"}}>
         {!currentUser && <OverlayTrigger
