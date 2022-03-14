@@ -10,8 +10,9 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
 
-  const [currentUser, setCurrentuser] = useState()
-  const [currentUserP, setCurrentuserP] = useState()
+  const [currentUser, setCurrentuser] = useState({})
+  const [currentUserP, setCurrentuserP] = useState({})
+  const [token, setToken] = useState('')
   const [loading, setLoading] = useState(true)
 
   function signup(email, password) {
@@ -33,8 +34,8 @@ export function AuthProvider({children}) {
   async function addProfile(user){
     try {
       axios
-        // .post("http://localhost:5000/profile/addUser", user)
-        .post("https://growserver.herokuapp.com/profile/addUser", user)
+        .post("http://localhost:5000/profile/addUser", user)
+        // .post("https://growserver.herokuapp.com/profile/addUser", user)
         .then((res) => {
           console.log(res.data)
         })
@@ -47,30 +48,43 @@ export function AuthProvider({children}) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentuser(user)
-      setLoading(false)
+      if(user){
+        setCurrentuser(user)
+        setLoading(false)
+        user.getIdToken().then((token) => {
+          setToken(token);
+        })
+      }
     })
     return unsubscribe
   }, [])
 
+  async function fetchData() {
+    await axios
+      .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`,{
+        headers:{
+          token: "Bearer " + token
+        }
+      })
+      // .get(`https://growserver.herokuapp.com/profile/getUser/${currentUser.uid}`)
+      .then((res) => {
+        currentUser.role = res.data.role;
+        setCurrentuserP(res.data);
+      });
+  }
+
   useEffect(()=>{
-    async function fetchData() {
-      await axios
-        .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`)
-        // .get(`https://growserver.herokuapp.com/profile/getUser/${currentUser.uid}`)
-        .then((res) => {
-          currentUser.role = res.data.role;
-          setCurrentuserP(res.data);
-        });
+    if(token){
+      fetchData()
     }
-    fetchData()
-  },[currentUser])
+  },[token])
 
 
 
   const value = {
     currentUser,
     currentUserP,
+    token,
     login,
     signup,
     logout,

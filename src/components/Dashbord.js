@@ -7,31 +7,38 @@ import ProfileCard from "./ProfileCard";
 import NavigationBar from "./NavigationBar";
 import Inventory from "./user/Inventory";
 import RequestCard from "./RequestCard";
+import ResponseCard from "./ResponseCard";
+import RedeemCard from "./RedeemCard";
 
 export default function Dashbord() {
   const [error, setError] = useState("");
-  const { currentUser } = useAuth();
+  const { currentUser, token } = useAuth();
   const [profile, setProfile] = useState({});
-  const [user, setUser] = useState({});
   const userID = currentUser.uid;
 
+  console.log('token', token);
+  
   async function fetchData() {
     setError("");
-    try {
       await axios
-        .get(`http://localhost:5000/profile/getProfile/${userID}`)
+        .get(`http://localhost:5000/profile/getProfile/${userID}`,{
+          headers:{
+            token: "Bearer " + token
+          }
+        })
         // .get(`https://growserver.herokuapp.com/profile/getProfile/${userID}`)
         .then((res) => {
           setProfile(res.data);
-        });
-    } catch {
-      setError("Failed to get data");
-    }
+        }).catch((err) =>{
+          setError("Failed to get data")
+        })
   }
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    if(token){
+      fetchData()
+    }
+  }, [token])
 
   const styles = {
     Container: {
@@ -44,7 +51,7 @@ export default function Dashbord() {
 
   return (
     <div style={styles.Container}>
-      <NavigationBar {...user}/>
+      <NavigationBar/>
       {!profile._id && <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
@@ -69,9 +76,13 @@ export default function Dashbord() {
       {profile._id &&
       <Container fluid="lg" className="d-flex align-items-center justify-content-between" style = {{paddingLeft:"4rem", paddingRight:"4rem"}}>
         <ProfileCard profile={profile} />
+        <Container>
         <RequestCard id = {userID}/>
+        <RedeemCard profile={profile}/>
+        </Container>
       </Container>
       }
+      <ResponseCard id = {userID}/>
       <Container fluid="xl" className="d-flex align-items-center justify-content-center">
         <Inventory id = {userID}/>
       </Container>

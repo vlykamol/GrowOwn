@@ -6,7 +6,7 @@ import profileImg from "../images/profileImg.jpg"
 export default function ItemCard(item) {
   return (
     <Container fluid="xs" className="d-flex align-items-center justify-content-center">
-    <Card className="mt-4">
+    <Card className="mt-4" style={{width:"300px"}}>
           <Card.Header>
             <Container className='d-flex align-items-center justify-content-between'>
               <div><h2>{item.productName}</h2></div>
@@ -20,7 +20,7 @@ export default function ItemCard(item) {
           </Card.Header>
           <Card.Img
             variant="top"
-            style={{ width: "350px", height: "140px" }}
+            style={{ width: "auto", height: "140px" }}
             src={profileImg}
           />
           <Card.Body>

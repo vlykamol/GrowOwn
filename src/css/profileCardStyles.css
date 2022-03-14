@@ -1,0 +1,18 @@
+
+.card{
+  width: 325px;
+  background:linear-gradient(#62B8FC,#35A4FB)
+}
+
+.card-header{
+  background:linear-gradient(to right, #75E6DA,#189AB4);
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  text-transform: capitalize;
+}
+
+span{
+  font-size: 28px;
+}

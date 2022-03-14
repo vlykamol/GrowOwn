@@ -11,10 +11,14 @@ import Timeline from "./Timeline";
 import AddItem from "./user/AddItem";
 import SellerProfile from "./SellerProfile"
 
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
 function App() {
   return (
     <Router>
       <AuthProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Routes>
           <Route exact path="/" element={<PrivateRoute><Timeline/></PrivateRoute>}/>
           <Route exact path="/dashbord" element={<PrivateRoute><Dashbord /></PrivateRoute>}/>
@@ -26,6 +30,7 @@ function App() {
           <Route path="/add-item" element={<PrivateRoute><AddItem/></PrivateRoute>}/>
           <Route path="/seller-profile/:profileId" element={<PrivateRoute><SellerProfile/></PrivateRoute>}/>
         </Routes>
+        </LocalizationProvider>
       </AuthProvider>
     </Router>
   );

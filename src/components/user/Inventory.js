@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import ItemCard from '../ItemCard';
 
 export default function Inventory(user) {
-  const { currentUser } = useAuth()
+  const { currentUser, token } = useAuth()
   const [error, setError] = useState('')
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(false)
@@ -16,7 +16,11 @@ export default function Inventory(user) {
     setError("");
     try {
       await axios
-        .get(`http://localhost:5000/item/getAllItems/${user.id}`)
+        .get(`http://localhost:5000/item/getAllItems/${user.id}`,{
+          headers:{
+            token: "Bearer " + token
+          }
+        })
         // .get(`https://growserver.herokuapp.com/item/getAllItems/${user.id}`)
         .then((res) => {
           setItems(res.data);
@@ -27,15 +31,17 @@ export default function Inventory(user) {
   }
 
   useEffect(()=>{
-    fetchAllItems()
-    setLoading(false)
-  }, [])
+    if(token){
+      fetchAllItems()
+      setLoading(false)
+    }
+  }, [token])
 
   const styles = {
     wrapper:{
       padding: "4rem",
       display: "grid",
-      gridTemplateColumns: "repeat(2, 1fr)",
+      gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
       gap: "2rem",
       gridAutoRows: "auto"
     },

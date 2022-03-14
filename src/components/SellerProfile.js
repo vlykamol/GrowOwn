@@ -10,7 +10,7 @@ import Button from "@restart/ui/esm/Button";
 
 export default function SellerProfile() {
   const [error, setError] = useState("");
-  const { currentUser, currentUserP } = useAuth();
+  const { currentUser, currentUserP, token } = useAuth();
   const [profile, setProfile] = useState({});
   const { profileId } = useParams();
 
@@ -18,7 +18,11 @@ export default function SellerProfile() {
     setError("");
     try {
       await axios
-        .get(`http://localhost:5000/profile/getProfile/${profileId}`)
+        .get(`http://localhost:5000/profile/getProfile/${profileId}`,{
+          headers:{
+            token: "Bearer " + token
+          }
+        })
         // .get(`https://growserver.herokuapp.com/profile/getProfile/${profileId}`)
         .then((res) => {
           // console.log(res.data);
@@ -30,8 +34,10 @@ export default function SellerProfile() {
   }
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    if(token){
+      fetchData()
+    }
+  }, [token])
 
   async function handleRequest(){
     console.log(currentUserP);
@@ -85,7 +91,9 @@ export default function SellerProfile() {
       {profile._id &&
       <Container fluid="md" className="d-flex align-items-center justify-content-between">
         <ProfileCard profile={profile} />
-        {currentUser.role === "affiliate" && <Button onClick={handleRequest} className="mt-4">Request for coupons</Button>}
+        {currentUser.role === "affiliate" && 
+          <Button onClick={handleRequest} className="mt-4">Request for coupons</Button>
+        }
       </Container>
       }
       <Container fluid="xl" className="d-flex align-items-center justify-content-center">

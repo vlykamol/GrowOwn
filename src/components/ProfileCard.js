@@ -2,8 +2,12 @@ import React from "react";
 import { Card, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import profileImg from "../images/profileImg.jpg"
+import CallIcon from '@mui/icons-material/Call';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import '.././css/profileCardStyles.css'
 
 export default function ProfileCard(props) {
+  
   const navigate = useNavigate();
 
   function handleChange(){
@@ -12,33 +16,48 @@ export default function ProfileCard(props) {
   return (
     <Container fluid="xs"
       className="d-flex align-items-center justify-content-center"
-      // style={{ minHeight: "100vh" }}
     >
       <div>
-        <Card onClick={handleChange} className="w-100 mt-4">
+        <Card>
           <Card.Header>
-            <h2>{props.profile.shopName}</h2>
+            <span className="material-icons">
+            store
+            </span>
+            <h3>. {props.profile.shopName}</h3>
           </Card.Header>
-          <Card.Img
+          <Card.Img 
+            onClick={handleChange}
             variant="top"
-            style={{ width: "350px", height: "140px" }}
+            style={{ width: "auto", height: "140px" }}
             src={profileImg}
           />
-          <Card.Body>
-            <Card.Text className="text-center m-2">
-              {props.profile.firstName} {props.profile.lastName}
+          <Card.Body >
+            <Card.Text className="text-start m-2">
+              Owner : {props.profile.firstName} {props.profile.lastName}
             </Card.Text>
-            <Card.Text className="text-center m-2">
-              {props.profile.productType}{" "}
+            <Card.Text className="text-start m-2">
+              Catagory : {props.profile.productType}{" "}
+            </Card.Text>
+
+            <Card.Text className="text-start m-2">
+              Contact : {props.profile.contactInfo}
+              <CallIcon/>
+            </Card.Text>
+            <Card.Text className="text-start m-2">
+              Address : {props.profile.address}
+              <LocationOnIcon onClick={()=>{
+                console.log("location");
+              }}/>
             </Card.Text>
           </Card.Body>
           <Card.Footer>
-            <Card.Text className="text-center m-2">
-              {props.profile.contactInfo}
-            </Card.Text>
-            <Card.Text className="text-center m-2">
-              {props.profile.address}
-            </Card.Text>
+            <div className="d-flex ">
+            <span className="material-icons">
+              token
+            </span>
+            <div>{props.profile.badge}</div>
+            </div>
+            <div> total sales: {props.profile.totalSales}</div>
           </Card.Footer>
         </Card>
       </div>

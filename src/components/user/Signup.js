@@ -28,6 +28,7 @@ export default function Signup() {
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setEroor("Password do not match");
     }
+    if(contactRef.current.value)
     try {
       setEroor("");
       setLoading(true);
@@ -104,8 +105,10 @@ export default function Signup() {
               <Form.Group id="Contact">
                 <Form.Label>Contact details</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="tel"
                   ref={contactRef}
+                  placeholder="8888888888" 
+                  pattern="[0-9]{3}[0-9]{3}[0-9]{4}" maxlength="10"
                   required
                 ></Form.Control>
               </Form.Group>
