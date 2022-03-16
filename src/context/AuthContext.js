@@ -10,10 +10,10 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
 
-  const [currentUser, setCurrentuser] = useState({})
-  const [currentUserP, setCurrentuserP] = useState({})
-  const [token, setToken] = useState('')
+  const [currentUser, setCurrentuser] = useState()
+  const [currentUserP, setCurrentuserP] = useState()
   const [loading, setLoading] = useState(true)
+  const [token, setToken] = useState('')
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password)
@@ -34,8 +34,8 @@ export function AuthProvider({children}) {
   async function addProfile(user){
     try {
       axios
-        .post("http://localhost:5000/profile/addUser", user)
-        // .post("https://growserver.herokuapp.com/profile/addUser", user)
+        // .post("http://localhost:5000/profile/addUser", user)
+        .post("https://growownserver.herokuapp.com/profile/addUser", user)
         .then((res) => {
           console.log(res.data)
         })
@@ -48,43 +48,44 @@ export function AuthProvider({children}) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      if(user){
-        setCurrentuser(user)
-        setLoading(false)
-        user.getIdToken().then((token) => {
-          setToken(token);
-        })
-      }
+      setCurrentuser(user)
+      setLoading(false)
     })
     return unsubscribe
   }, [])
 
-  async function fetchData() {
-    await axios
-      .get(`http://localhost:5000/profile/getUser/${currentUser.uid}`,{
-        headers:{
-          token: "Bearer " + token
-        }
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      user.getIdToken().then(token => {
+        console.log('token', token);
+        setToken(token)
       })
-      // .get(`https://growserver.herokuapp.com/profile/getUser/${currentUser.uid}`)
-      .then((res) => {
-        currentUser.role = res.data.role;
-        setCurrentuserP(res.data);
-      });
-  }
+    })
+  },[currentUser])
 
   useEffect(()=>{
-    if(token){
-      fetchData()
+    async function fetchData() {
+      await axios
+        .get(`https://growownserver.herokuapp.com/profile/getUser/${currentUser.uid}`,
+        {
+          headers:{
+            token: "Bearer " + token
+          }
+        }
+        )
+        .then((res) => {
+          currentUser.role = res.data.role;
+          setCurrentuserP(res.data);
+        });
     }
-  },[token])
+    fetchData()
+  },[currentUser])
 
 
 
   const value = {
     currentUser,
     currentUserP,
-    token,
     login,
     signup,
     logout,
